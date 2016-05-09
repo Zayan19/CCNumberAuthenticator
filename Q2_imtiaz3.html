@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+First Name: <input type="text" id="myText" value="">
+
+<p>Please enter a Visa, Master Card or American Express credit card number.</p>
+
+<button onclick="isValidCreditCard()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function isValidCreditCard() {
+    var inputText = document.getElementById("myText").value;
+    var total= 0 + parseInt (inputText[inputText.length-1]);
+    var alt = 1;
+
+//if the structure is valid set this variable to 1
+    var checkValidStructure = 2;
+//check valdity of credit card length and numbers using regular expressions:
+
+    if ( inputText.match(/^5[12345].{14}/)!=null||
+            inputText.match(/^3[47].{13}/)!=null||
+            inputText.match(/^4[1-9].{11}/)!=null||
+            inputText.match(/^4[1-9].{14}/)!=null)
+    { 
+        
+        checkValidStructure = 1;
+    }
+
+
+//remove the last element
+    var cNum = inputText.slice(0,-1);
+    var b = 0;
+//Luhn's algorithm implementation 
+//multiplies every other digit by two starting from the right most
+//if double digits add the two digits
+//add up all the digits 
+
+    for (var i = cNum.length-1; i >= 0; i--) {
+        if (alt==1) {
+            b= parseInt(cNum[i])*2;
+           
+            if (b.toString().length>1) { 
+            var a = parseInt(cNum[i])*2;
+            var n = parseInt(a.toString()[0])+parseInt(a.toString()[1]); 
+            total=total+n;
+            }  
+            
+            else {
+                total = total+b;
+            }
+            alt=0;
+    }
+        else {
+            total = total+parseInt(cNum[i]);
+            alt=1;
+        }
+    
+    }
+
+//check if the sum + the last digit is a multiple of 10 as well
+    //to confirm checksum digit 
+//confirm if  the structure was valid or not
+    if (total%10==0&& checkValidStructure==1) { 
+        document.getElementById("demo").innerHTML = "valid";
+        checkValidStructure = 0;
+    }
+    else {
+        document.getElementById("demo").innerHTML = "invalid";
+    }
+}
+
+</script>
+</body>
+</html>
+</script></p>
+</body>
+</html>
